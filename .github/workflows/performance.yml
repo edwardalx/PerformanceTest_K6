@@ -1,0 +1,20 @@
+name: Performance Test
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  k6-test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Run k6 performance test
+      uses: grafana/k6-action@v0.3.0
+      with:
+        filename: protectedApi.js
