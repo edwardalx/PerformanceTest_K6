@@ -11,9 +11,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Step 1: Checkout code from the repository
       - name: Checkout code
         uses: actions/checkout@v4
 
+      # Step 2: List files in the repo for debugging purposes
       - name: Debug - List files (optional, helps verify paths)
         run: |
           echo "Repository structure:"
@@ -21,11 +23,18 @@ jobs:
           echo "Files in performance-tests:"
           ls -la performance-tests/
 
+      # Step 3: Debugging step to print the environment variables (to verify they are set)
+      - name: Debug - Print environment variables
+        run: |
+          echo "EMAIL=$EMAIL"
+          echo "PASSWORD=$PASSWORD"
+
+      # Step 4: Run k6 performance test with environment variables
       - name: Run k6 performance test
         uses: grafana/k6-action@v0.3.0
         with:
-          filename: performance-tests/protectedApi.js # ← Correct path
-          flags: --vus 1 --iterations 1 # Start small for testing
+          filename: performance-tests/protectedApi.js  # Ensure correct path to the k6 script
+          flags: --vus 1 --iterations 1  # Run with 1 virtual user and 1 iteration for testing
         env:
           BASE_URL: https://campushostels.duckdns.org
           EMAIL: ${{ secrets.EMAIL }}
