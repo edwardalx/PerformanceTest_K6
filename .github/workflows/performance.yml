@@ -2,30 +2,31 @@ name: Performance Test
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [main, master]
   pull_request:
-    branches: [ main, master ]
+    branches: [main, master]
 
 jobs:
   k6-test:
     runs-on: ubuntu-latest
-    
+
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-    
-    - name: Debug - List files (optional, helps verify paths)
-      run: |
-        echo "Repository structure:"
-        ls -la
-        echo "Files in performance-tests:"
-        ls -la performance-tests/
-    
-    - name: Run k6 performance test
-      uses: grafana/k6-action@v0.3.0
-      with:
-        filename: performance-tests/protectedApi.js  # ← Correct path
-        flags: --vus 1 --iterations 1  # Start small for testing
-      env:
-        TEST_EMAIL: ${{ secrets.TEST_EMAIL }}
-        TEST_PASSWORD: ${{ secrets.TEST_PASSWORD }}
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Debug - List files (optional, helps verify paths)
+        run: |
+          echo "Repository structure:"
+          ls -la
+          echo "Files in performance-tests:"
+          ls -la performance-tests/
+
+      - name: Run k6 performance test
+        uses: grafana/k6-action@v0.3.0
+        with:
+          filename: performance-tests/protectedApi.js # ← Correct path
+          flags: --vus 1 --iterations 1 # Start small for testing
+        env:
+          BASE_URL: https://campushostels.duckdns.org
+          EMAIL: ${{ secrets.EMAIL }}
+          PASSWORD: ${{ secrets.PASSWORD }}
