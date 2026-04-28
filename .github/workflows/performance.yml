@@ -14,7 +14,29 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
     
-    - name: Run k6 performance test
+    - name: Debug - List all files
+      run: |
+        echo "Current directory:"
+        pwd
+        echo "Files in root:"
+        ls -la
+        echo "JavaScript files:"
+        find . -name "*.js" -type f
+    
+    - name: Run k6 test
       uses: grafana/k6-action@v0.3.0
       with:
         filename: protectedApi.js
+        flags: --vus 1 --iterations 1  # Test with minimal load first
+      env:
+        TEST_EMAIL: ${{ secrets.TEST_EMAIL }}
+        TEST_PASSWORD: ${{ secrets.TEST_PASSWORD }}
+    
+    - name: Upload test results
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: k6-results
+        path: |
+          *.json
+          *.html
