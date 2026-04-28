@@ -90,4 +90,4 @@ export default function (data) {
   sleep(1);
 }
 
-// $env:EMAIL="eobkwaku@gmail.com"; $env:PASSWORD="Edward1!"; k6 run protectedApi.js
+// $env:EMAIL="eobkwaku@gmail.com"; $env:PASSWORD="Edward1!"; k6 run protectedApi.js  
