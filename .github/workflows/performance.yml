@@ -14,29 +14,18 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
     
-    - name: Debug - List all files
+    - name: Debug - List files (optional, helps verify paths)
       run: |
-        echo "Current directory:"
-        pwd
-        echo "Files in root:"
+        echo "Repository structure:"
         ls -la
-        echo "JavaScript files:"
-        find . -name "*.js" -type f
+        echo "Files in performance-tests:"
+        ls -la performance-tests/
     
-    - name: Run k6 test
+    - name: Run k6 performance test
       uses: grafana/k6-action@v0.3.0
       with:
-        filename: protectedApi.js
-        flags: --vus 1 --iterations 1  # Test with minimal load first
+        filename: performance-tests/protectedApi.js  # ← Correct path
+        flags: --vus 1 --iterations 1  # Start small for testing
       env:
         TEST_EMAIL: ${{ secrets.TEST_EMAIL }}
         TEST_PASSWORD: ${{ secrets.TEST_PASSWORD }}
-    
-    - name: Upload test results
-      if: always()
-      uses: actions/upload-artifact@v4
-      with:
-        name: k6-results
-        path: |
-          *.json
-          *.html
