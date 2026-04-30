@@ -33,9 +33,10 @@ jobs:
       - name: Run k6 performance test
         uses: grafana/k6-action@v0.3.0
         with:
-          filename: performance-tests/protectedApi.js  # Ensure correct path to the k6 script
-          flags: --vus 1 --iterations 1  # Run with 1 virtual user and 1 iteration for testing
+          filename: performance-tests/protectedApi.js # Ensure correct path to the k6 script
+          flags: --vus 1 --iterations 1 # Run with 1 virtual user and 1 iteration for testing
         env:
           BASE_URL: https://campushostels.duckdns.org
           EMAIL: ${{ secrets.EMAIL }}
           PASSWORD: ${{ secrets.PASSWORD }}
+          CI: true
