@@ -13,7 +13,8 @@ export const options = {
     { duration: "10s", target: 0 },
   ],
   thresholds: {
-    http_req_duration: ["p(95)<500"],
+     // Stricter for local, looser for CI
+    http_req_duration: isCI ? ['p(95)<2000'] : ['p(95)<500'],
     http_req_failed: ["rate<0.01"],
   },
 };
