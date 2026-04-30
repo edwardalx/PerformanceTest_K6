@@ -1,7 +1,7 @@
 import http from "k6/http";
 import { check, sleep } from "k6";
 
-// Use environment variables instead of hardcoding secrets
+// Use environment variables instead of hardcoding secrets 
 const BASE_URL = __ENV.BASE_URL || "https://campushostels.duckdns.org";
 const EMAIL = __ENV.EMAIL;
 const PASSWORD = __ENV.PASSWORD;
